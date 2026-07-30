@@ -1,16 +1,31 @@
 {
-  "name": "blokus-online",
-  "version": "1.0.0",
-  "description": "Blokus game online",
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "client": "cd client && npm run dev",
-    "server": "cd server && node server.js",
-    "dev": "concurrently \"npm run client\" \"npm run server\"",
-    "build": "cd client && npm run build",
-    "lint": "cd client && npm run lint",
-    "preview": "cd client && npm run preview"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@blokus/engine": "*",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "eslint": "^10.6.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.7.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.1"
   }
 }

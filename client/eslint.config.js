@@ -1,21 +1,18 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
 
-export default defineConfig([
-  globalIgnores(['dist']),
+// Minimal lint pass for plain-JS config files. TypeScript/TSX sources are
+// statically checked by `tsc --noEmit` (see `npm run typecheck`); a full
+// typescript-eslint setup can be layered on later.
+export default [
+  { ignores: ['dist', 'node_modules'] },
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+    files: ['**/*.js'],
+    ...js.configs.recommended,
     languageOptions: {
-      globals: globals.browser,
-      parserOptions: { ecmaFeatures: { jsx: true } },
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: { ...globals.node },
     },
   },
-])
+];

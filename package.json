@@ -1,0 +1,27 @@
+{
+  "name": "blokus-online",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Blokus — a web version of the board game (local 2-player now, online later)",
+  "workspaces": [
+    "packages/*",
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace client",
+    "dev:client": "npm run dev --workspace client",
+    "dev:server": "npm run dev --workspace server",
+    "dev:all": "concurrently -n client,server -c cyan,green \"npm run dev:client\" \"npm run dev:server\"",
+    "build": "npm run build --workspace client",
+    "preview": "npm run preview --workspace client",
+    "lint": "npm run lint --workspace client",
+    "test": "npm run test --workspace @blokus/engine",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4",
+    "typescript": "^7.0.2"
+  }
+}
