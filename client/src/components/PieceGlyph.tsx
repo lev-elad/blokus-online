@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { Coord } from '@blokus/engine';
 
 interface Props {
@@ -7,8 +8,9 @@ interface Props {
   box?: number;
 }
 
-/** A small SVG rendering of a piece shape, scaled proportionally. */
-export function PieceGlyph({ cells, colorIndex, box = 44 }: Props) {
+/** A small SVG rendering of a piece shape, scaled proportionally. Memoized: props are
+ *  referentially stable per piece, so it doesn't re-render on unrelated tray state (e.g. tooltip). */
+export const PieceGlyph = memo(function PieceGlyph({ cells, colorIndex, box = 44 }: Props) {
   let w = 1;
   let h = 1;
   for (const c of cells) {
@@ -39,4 +41,4 @@ export function PieceGlyph({ cells, colorIndex, box = 44 }: Props) {
       ))}
     </svg>
   );
-}
+});

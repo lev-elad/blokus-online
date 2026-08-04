@@ -173,3 +173,28 @@ export function hasAnyLegalMove(state: GameState, playerIndex: PlayerIndex): boo
   }
   return false;
 }
+
+/** The set of a player's remaining pieces that have at least one legal placement right now. */
+export function playablePieceIds(state: GameState, playerIndex: PlayerIndex): Set<PieceId> {
+  const player = state.players[playerIndex];
+  const anchors = candidateCells(state, playerIndex);
+  const out = new Set<PieceId>();
+  if (anchors.length === 0) return out;
+
+  for (const pieceId of player.remaining) {
+    let playable = false;
+    search: for (const orientation of orientationsOf(pieceId)) {
+      for (const anchor of anchors) {
+        for (const pivot of orientation) {
+          const abs = translate(orientation, anchor.x - pivot.x, anchor.y - pivot.y);
+          if (checkGeometry(state, playerIndex, abs).ok) {
+            playable = true;
+            break search;
+          }
+        }
+      }
+    }
+    if (playable) out.add(pieceId);
+  }
+  return out;
+}
