@@ -5,6 +5,7 @@ import {
   getLegalMoves,
   hasAnyLegalMove,
   isShapeOfPiece,
+  playablePieceIds,
   validatePlacement,
 } from '../src/index';
 import type { GameState } from '../src/index';
@@ -101,5 +102,23 @@ describe('legal-move enumeration', () => {
     for (const m of moves) {
       expect(validatePlacement(s, 0, m.pieceId, m.cells).ok).toBe(true);
     }
+  });
+});
+
+describe('playablePieceIds', () => {
+  it('marks all pieces playable on the opening and agrees with getLegalMoves', () => {
+    const s = createDuoGame();
+    const set = playablePieceIds(s, 0);
+    expect(set.size).toBe(21);
+    const fromMoves = new Set(getLegalMoves(s, 0).map((m) => m.pieceId));
+    expect([...set].sort()).toEqual([...fromMoves].sort());
+  });
+
+  it('agrees with getLegalMoves mid-game and excludes used pieces', () => {
+    const s = afterOpening();
+    const set = playablePieceIds(s, 0);
+    const fromMoves = new Set(getLegalMoves(s, 0).map((m) => m.pieceId));
+    expect([...set].sort()).toEqual([...fromMoves].sort());
+    expect(set.has('V3')).toBe(false); // used in the opening
   });
 });

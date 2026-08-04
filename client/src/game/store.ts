@@ -95,7 +95,11 @@ export const useGame = create<GameStore>((set, get) => ({
 
 // Dev-only handles for debugging / verification from the browser console.
 if (import.meta.env.DEV && typeof window !== 'undefined') {
-  const w = window as unknown as { __game?: typeof useGame; __playToEnd?: () => unknown };
+  const w = window as unknown as {
+    __game?: typeof useGame;
+    __playToEnd?: () => unknown;
+    __playMoves?: (n: number) => unknown;
+  };
   w.__game = useGame;
   // Greedily play out the current game (largest piece first) to reach the end state.
   w.__playToEnd = () => {
@@ -110,5 +114,20 @@ if (import.meta.env.DEV && typeof window !== 'undefined') {
     }
     useGame.setState({ game: g, selectedPieceId: null, orientationIndex: 0, hover: null });
     return { status: g.status, turns: g.turn };
+  };
+  // Play up to n greedy (largest-piece-first) moves; stops early if the game ends.
+  w.__playMoves = (n: number) => {
+    let g = useGame.getState().game;
+    let played = 0;
+    while (g.status === 'playing' && played < n) {
+      const moves = getLegalMoves(g, g.currentPlayerIndex);
+      if (!moves.length) break;
+      let best = moves[0];
+      for (const m of moves) if (m.cells.length > best.cells.length) best = m;
+      g = applyMove(g, best);
+      played++;
+    }
+    useGame.setState({ game: g, selectedPieceId: null, orientationIndex: 0, hover: null });
+    return { status: g.status, turns: g.turn, played };
   };
 }
