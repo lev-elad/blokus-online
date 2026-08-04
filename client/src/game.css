@@ -168,6 +168,11 @@
 .cell--p1 {
   background: linear-gradient(145deg, var(--p1-2), var(--p1));
 }
+.cell--p0,
+.cell--p1 {
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.24);
+}
 .cell--start::after {
   content: '';
   position: absolute;
@@ -204,8 +209,9 @@
 }
 .flash-cell {
   position: absolute;
-  border-radius: 3px;
-  animation: pop 0.34s ease-out;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.24);
+  animation: place-pop 0.5s ease-out forwards;
 }
 .flash-cell--p0 {
   background: var(--p0);
@@ -309,6 +315,7 @@ kbd {
   --tc: var(--p1);
 }
 .tray__piece {
+  position: relative;
   width: 52px;
   height: 52px;
   display: grid;
@@ -330,6 +337,25 @@ kbd {
 .tray__piece:disabled {
   opacity: 0.5;
   cursor: default;
+}
+.tray__piece--used {
+  opacity: 0.4;
+  filter: grayscale(1);
+  cursor: default;
+}
+.tray__points {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  padding: 1px 3px;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-dim);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
 }
 
 .glyph {
@@ -440,14 +466,17 @@ kbd {
     transform: translateX(4px);
   }
 }
-@keyframes pop {
-  from {
-    transform: scale(0.45);
-    opacity: 0.15;
+@keyframes place-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.05;
   }
-  to {
+  40% {
+    opacity: 0.9;
+  }
+  100% {
     transform: scale(1);
-    opacity: 1;
+    opacity: 0;
   }
 }
 @keyframes fade {
