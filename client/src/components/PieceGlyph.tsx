@@ -16,10 +16,11 @@ export function PieceGlyph({ cells, colorIndex, box = 44 }: Props) {
     h = Math.max(h, c.y + 1);
   }
   const scale = box / Math.max(w, h);
+  const fill = colorIndex === 0 ? 'fill-p0' : 'fill-p1';
 
   return (
     <svg
-      className="glyph"
+      className="block"
       width={w * scale}
       height={h * scale}
       viewBox={`0 0 ${w} ${h}`}
@@ -33,7 +34,7 @@ export function PieceGlyph({ cells, colorIndex, box = 44 }: Props) {
           width={0.88}
           height={0.88}
           rx={0.16}
-          className={`glyph__cell glyph__cell--p${colorIndex}`}
+          className={`glyph-cell ${fill}`}
         />
       ))}
     </svg>

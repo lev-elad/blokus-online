@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 // The engine lives in a sibling workspace package. Alias it straight to its TS
 // source so Vite runs it through its own transform pipeline (rather than treating
@@ -10,7 +11,7 @@ const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       '@blokus/engine': engineSrc,

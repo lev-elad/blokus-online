@@ -5,7 +5,6 @@ import { PieceTray } from './components/PieceTray';
 import { Controls } from './components/Controls';
 import { PlayerPanel } from './components/PlayerPanel';
 import { GameOverModal } from './components/GameOverModal';
-import './game.css';
 
 export default function App() {
   const rotate = useGame((s) => s.rotate);
@@ -39,26 +38,32 @@ export default function App() {
   }, [rotate, flip, selectPiece]);
 
   return (
-    <div className="app" data-turn={status === 'playing' ? `p${currentIndex}` : 'none'}>
-      <header className="app__header">
-        <h1 className="app__title">
-          Blokus <span className="app__badge">Duo</span>
+    <div
+      data-turn={status === 'playing' ? `p${currentIndex}` : 'none'}
+      className="mx-auto flex min-h-full max-w-[920px] flex-col gap-4 px-4 pb-12 pt-[18px]"
+    >
+      <header className="flex items-center justify-between gap-3">
+        <h1 className="m-0 flex items-center gap-2.5 text-[1.7rem] font-extrabold tracking-tight">
+          Blokus
+          <span className="rounded-full bg-accent px-[9px] py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-white transition-colors">
+            Duo
+          </span>
         </h1>
         <button type="button" className="btn" onClick={newGame}>
           New game
         </button>
       </header>
 
-      <section className="scoreboard">
+      <section className="grid grid-cols-2 gap-3">
         <PlayerPanel index={0} />
         <PlayerPanel index={1} />
       </section>
 
-      <main className="play">
+      <main className="flex justify-center">
         <Board />
       </main>
 
-      <section className="dock">
+      <section className="flex flex-col items-center gap-3">
         <Controls />
         <PieceTray />
       </section>
