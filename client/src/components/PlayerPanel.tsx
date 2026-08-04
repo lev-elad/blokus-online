@@ -14,17 +14,21 @@ export function PlayerPanel({ index }: { index: number }) {
       : `${p.remaining.length} pieces left`;
 
   return (
-    <div className={`panel panel--p${index} ${isCurrent ? 'panel--active' : ''}`}>
-      <div className="panel__top">
-        <span className="panel__swatch" />
-        <span className="panel__name">{p.label}</span>
-        {isCurrent && <span className="panel__turn">● turn</span>}
+    <div className={`panel panel-p${index} ${isCurrent ? 'panel-active' : ''}`}>
+      <div className="flex items-center gap-2.5">
+        <span className="panel-swatch" />
+        <span className="font-bold">{p.label}</span>
+        {isCurrent && (
+          <span className="ml-auto text-[0.68rem] font-bold uppercase tracking-[0.1em] text-[color:var(--pc)]">
+            ● turn
+          </span>
+        )}
       </div>
-      <div className="panel__squares">
-        <strong>{squares}</strong>
-        <span>squares left</span>
+      <div className="flex items-baseline gap-1.5">
+        <strong className="text-2xl tabular-nums">{squares}</strong>
+        <span className="text-[0.82rem] text-dim">squares left</span>
       </div>
-      <div className="panel__status">{status}</div>
+      <div className="text-[0.8rem] text-dim">{status}</div>
     </div>
   );
 }

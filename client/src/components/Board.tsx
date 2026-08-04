@@ -65,7 +65,7 @@ export function Board() {
   return (
     <div
       ref={boardRef}
-      className={`board ${shake ? 'board--shake' : ''}`}
+      className={`board ${shake ? 'board-shake' : ''}`}
       style={{ '--n': size } as CSSProperties}
       role="grid"
       aria-label="Blokus board"
@@ -87,9 +87,9 @@ export function Board() {
           const key = `${x},${y}`;
           const startOwner = startSet.get(key);
           const cls = ['cell'];
-          if (cell === 0) cls.push('cell--p0');
-          else if (cell === 1) cls.push('cell--p1');
-          else if (startOwner !== undefined) cls.push('cell--start', `cell--start-p${startOwner}`);
+          if (cell === 0) cls.push('cell-p0');
+          else if (cell === 1) cls.push('cell-p1');
+          else if (startOwner !== undefined) cls.push('cell-start', `cell-start-p${startOwner}`);
           return <div key={key} className={cls.join(' ')} />;
         }),
       )}
@@ -101,7 +101,7 @@ export function Board() {
             .map((c, i) => (
               <div
                 key={i}
-                className={`ghost-cell ${ghost.valid ? 'ghost-cell--ok' : 'ghost-cell--bad'}`}
+                className={`ghost-cell ${ghost.valid ? 'ghost-ok' : 'ghost-bad'}`}
                 style={pct(c)}
               />
             ))}
@@ -111,11 +111,7 @@ export function Board() {
       {lastMove && (
         <div className="overlay" key={game.turn}>
           {lastMove.cells.map((c, i) => (
-            <div
-              key={i}
-              className={`flash-cell flash-cell--p${lastMove.playerIndex}`}
-              style={pct(c)}
-            />
+            <div key={i} className={`flash-cell flash-p${lastMove.playerIndex}`} style={pct(c)} />
           ))}
         </div>
       )}

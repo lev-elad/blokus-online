@@ -11,7 +11,7 @@ export function PieceTray() {
   const gameOver = game.status !== 'playing';
 
   return (
-    <div className={`tray tray--p${player.index}`} aria-label={`${player.label}'s pieces`}>
+    <div className={`tray tray-p${player.index}`} aria-label={`${player.label}'s pieces`}>
       {PIECE_IDS.map((id) => {
         const owned = player.remaining.includes(id);
         const selected = selectedPieceId === id;
@@ -20,8 +20,8 @@ export function PieceTray() {
           <button
             key={id}
             type="button"
-            className={`tray__piece ${selected ? 'tray__piece--selected' : ''} ${
-              owned ? '' : 'tray__piece--used'
+            className={`tray-piece ${selected ? 'tray-piece-selected' : ''} ${
+              owned ? '' : 'tray-piece-used'
             }`}
             onClick={() => owned && selectPiece(selected ? null : id)}
             disabled={!owned || gameOver}
@@ -30,7 +30,7 @@ export function PieceTray() {
             title={owned ? `${id} · ${points} pts` : `${id} · used`}
           >
             <PieceGlyph cells={PIECES[id].cells} colorIndex={player.index} box={38} />
-            <span className="tray__points">{points}</span>
+            <span className="tray-points">{points}</span>
           </button>
         );
       })}
