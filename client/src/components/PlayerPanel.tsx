@@ -1,11 +1,12 @@
-import { remainingSquares } from '@blokus/engine';
+import { useMemo } from 'react';
+import { computeScores } from '@blokus/engine';
 import { useGame } from '../game/store';
 
 export function PlayerPanel({ index }: { index: number }) {
   const game = useGame((s) => s.game);
   const p = game.players[index];
   const isCurrent = game.status === 'playing' && game.currentPlayerIndex === index;
-  const squares = remainingSquares(p.remaining);
+  const score = useMemo(() => computeScores(game)[index].score, [game, index]);
 
   const status = p.finishedAll
     ? 'Finished! 🎉'
@@ -25,8 +26,8 @@ export function PlayerPanel({ index }: { index: number }) {
         )}
       </div>
       <div className="flex items-baseline gap-1.5">
-        <strong className="text-2xl tabular-nums">{squares}</strong>
-        <span className="text-[0.82rem] text-dim">squares left</span>
+        <strong className="text-2xl tabular-nums">{score}</strong>
+        <span className="text-[0.82rem] text-dim">points</span>
       </div>
       <div className="text-[0.8rem] text-dim">{status}</div>
     </div>

@@ -19,6 +19,9 @@ export function GameOverModal() {
           {scores.map((sc) => {
             const p = game.players[sc.playerIndex];
             const win = winners.includes(sc.playerIndex);
+            const detail = sc.placedAll
+              ? `all 21 placed · +${sc.bonus} bonus`
+              : `${p.remaining.length} pieces left`;
             return (
               <div
                 key={sc.playerIndex}
@@ -28,11 +31,10 @@ export function GameOverModal() {
                   {p.label}
                   {win && ' 👑'}
                 </span>
-                <span className="text-[0.78rem] text-dim [grid-area:detail]">
-                  {sc.placedAll ? `all placed · +${sc.bonus} bonus` : `${sc.remainingSquares} squares left`}
-                </span>
+                <span className="text-[0.78rem] text-dim [grid-area:detail]">{detail}</span>
                 <span className="text-2xl font-extrabold tabular-nums text-[color:var(--rc)] [grid-area:score]">
-                  {sc.score > 0 ? `+${sc.score}` : sc.score}
+                  {sc.score}
+                  <span className="ml-1 text-xs font-semibold text-dim">pts</span>
                 </span>
               </div>
             );
